@@ -31,4 +31,14 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'news_services' => [
+
+        'newsapi' => App\Services\NewsApiService::class,
+        //'theguardian' => App\Services\TheGuardianService::class,
+        //'nytimes' => App\Services\NewYorkTimesService::class,
+
+        // We can add more services as needed
+
+    ],
+
 ];
