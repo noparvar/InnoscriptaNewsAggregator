@@ -30,9 +30,9 @@ trait ApiDataProcessingTrait
     /**
      * Fetch data from the API.
      *
-     * @return array Raw data from the API.
+     * @return array|object Raw data from the API.
      */
-    abstract protected function fetchDataFromApi(): array;
+    abstract protected function fetchDataFromApi(): array | object;
 
     /**
      * Process and standardize data.
