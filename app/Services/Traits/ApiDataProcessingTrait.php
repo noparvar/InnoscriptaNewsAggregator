@@ -2,12 +2,17 @@
 
 namespace App\Services\Traits;
 
+use GuzzleHttp\Exception\GuzzleException;
+use jcobhams\NewsApi\NewsApiException;
+
 trait ApiDataProcessingTrait
 {
     /**
      * Fetch and process data from the API.
      *
      * @return array An array of arrays with specific keys.
+     * @throws NewsApiException
+     * @throws GuzzleException
      */
     public function fetchAndProcessData(): array
     {
@@ -19,13 +24,15 @@ trait ApiDataProcessingTrait
         return array_map(function ($item) {
             return [
                 'title'    => $item['title'] ?? '',
-                'content'  => $item['content'] ?? '',
-                'author'   => $item['author'] ?? '',
-                'source'   => $item['source'] ?? '',
-                'category' => $item['category'] ?? '',
+                'content'  => $item['content'] ?? null,
+                'author'   => $item['author'] ?? null,
+                'source'   => $item['source'] ?? null,
+                'category' => $item['category'] ?? null,
             ];
         }, $standardizedData);
     }
+
+    abstract public function getName(): string;
 
     /**
      * Fetch data from the API.

@@ -11,6 +11,11 @@ class NewsApiService implements ApiServiceInterface
 {
     use ApiDataProcessingTrait;
 
+    public function getName(): string
+    {
+        return 'NewsApi';
+    }
+
     /**
      * Fetch data from the NewsAPI.
      *
@@ -57,7 +62,7 @@ class NewsApiService implements ApiServiceInterface
                 'title'    => htmlspecialchars($article->title), // Sanitize title by encoding special characters to prevent XSS vulnerabilities
                 'content'  => strip_tags($article->content), // Sanitize content by removing any potentially harmful HTML tags
                 'author'   => $article->author,
-                'source'   => $article->source->name,
+                'source'   => $this->getName(),
             );
         }
 
