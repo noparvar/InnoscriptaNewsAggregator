@@ -33,7 +33,7 @@ return [
 
     'news_services' => [
 
-        //'newsapi' => App\Services\NewsApiService::class,
+        'newsapi' => App\Services\NewsApiService::class,
         'theguardian' => App\Services\TheGuardianService::class,
         //'nytimes' => App\Services\NewYorkTimesService::class,
 

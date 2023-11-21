@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use jcobhams\NewsApi\NewsApi;
 use jcobhams\NewsApi\NewsApiException;
@@ -56,11 +57,17 @@ class NewsApiService extends ApiServiceAbstract implements ApiServiceInterface
         $standardizedData = [];
 
         foreach ($rawData->articles as $article) {
+
+            // Parse the raw publish date with Carbon
+            $carbonDate = Carbon::parse($article->publishedAt);
+
             $standardizedData[] = array(
-                'title'    => htmlspecialchars($article->title), // Sanitize title by encoding special characters to prevent XSS vulnerabilities
-                'content'  => strip_tags($article->content), // Sanitize content by removing any potentially harmful HTML tags
-                'author'   => $article->author,
-                'source'   => $this->getName(),
+                'title'        => htmlspecialchars($article->title), // Sanitize title by encoding special characters to prevent XSS vulnerabilities
+                'content'      => strip_tags($article->content), // Sanitize content by removing any potentially harmful HTML tags
+                'author'       => $article->author,
+                'source'       => $this->getName(),
+                'publish_date' => $carbonDate->toDateString(),
+                'publish_time' => $carbonDate->toTimeString(),
             );
         }
 

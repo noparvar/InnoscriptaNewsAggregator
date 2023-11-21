@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Log;
@@ -76,10 +77,16 @@ class TheGuardianService extends ApiServiceAbstract implements ApiServiceInterfa
         $standardizedData = [];
 
         foreach ($rawData as $article) {
+
+            // Parse the raw publish date with Carbon
+            $carbonDate = Carbon::parse($article['webPublicationDate']);
+
             $standardizedData[] = array(
                 'title'    => htmlspecialchars($article['webTitle']), // Sanitize title by encoding special characters to prevent XSS vulnerabilities
                 'category' => $article['sectionName'],
                 'source'   => $this->getName(),
+                'publish_date' => $carbonDate->toDateString(),
+                'publish_time' => $carbonDate->toTimeString(),
             );
         }
 

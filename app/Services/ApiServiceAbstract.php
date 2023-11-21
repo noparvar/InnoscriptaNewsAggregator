@@ -18,11 +18,13 @@ abstract class ApiServiceAbstract implements ApiServiceInterface
         // Ensure each item in the array has specific keys
         return array_map(function ($item) {
             return [
-                'title'    => $item['title'] ?? '',
-                'content'  => $item['content'] ?? null,
-                'author'   => $item['author'] ?? null,
-                'source'   => $item['source'] ?? null,
-                'category' => $item['category'] ?? null,
+                'title'        => $item['title'] ?? '',
+                'content'      => $item['content'] ?? null,
+                'author'       => $item['author'] ?? null,
+                'source'       => $item['source'] ?? null,
+                'category'     => $item['category'] ?? null,
+                'publish_date' => $item['publish_date'] ?? null,
+                'publish_time' => $item['publish_time'] ?? null,
             ];
         }, $standardizedData);
     }
