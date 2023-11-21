@@ -2,15 +2,12 @@
 
 namespace App\Services;
 
-use App\Services\Traits\ApiDataProcessingTrait;
-
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Log;
 
-class TheGuardianService implements ApiServiceInterface
+class TheGuardianService extends ApiServiceAbstract implements ApiServiceInterface
 {
-    use ApiDataProcessingTrait;
 
     private Client $httpClient;
     private string $apiKey;
@@ -73,7 +70,7 @@ class TheGuardianService implements ApiServiceInterface
      *
      * @return array Standardized data.
      */
-    private function processAndStandardizeData(array $rawData) : array
+    protected function processAndStandardizeData(array $rawData) : array
     {
         // Implementation to process and standardize data
         $standardizedData = [];

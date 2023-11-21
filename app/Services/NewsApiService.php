@@ -2,14 +2,12 @@
 
 namespace App\Services;
 
-use App\Services\Traits\ApiDataProcessingTrait;
+use Illuminate\Support\Facades\Log;
 use jcobhams\NewsApi\NewsApi;
 use jcobhams\NewsApi\NewsApiException;
-use Illuminate\Support\Facades\Log;
 
-class NewsApiService implements ApiServiceInterface
+class NewsApiService extends ApiServiceAbstract implements ApiServiceInterface
 {
-    use ApiDataProcessingTrait;
 
     public function getName(): string
     {
@@ -23,7 +21,7 @@ class NewsApiService implements ApiServiceInterface
      *
      * @return object Fetched data from the NewsAPI.
      */
-    private function fetchDataFromApi() : object
+    protected function fetchDataFromApi() : object
     {
         // Implementation to fetch data from NewsAPI
 
@@ -52,7 +50,7 @@ class NewsApiService implements ApiServiceInterface
      *
      * @return array Standardized data.
      */
-    private function processAndStandardizeData($rawData) : array
+    protected function processAndStandardizeData($rawData) : array
     {
         // Implementation to process and standardize data
         $standardizedData = [];

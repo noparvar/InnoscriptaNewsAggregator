@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\FetchArticlesJob;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Config;
 
 class FetchArticles extends Command
@@ -13,7 +13,7 @@ class FetchArticles extends Command
      *
      * @var string
      */
-    protected $signature = 'fetch:articles';
+    protected $signature = 'articles:fetch';
 
     /**
      * The console command description.
@@ -26,24 +26,26 @@ class FetchArticles extends Command
 
     /**
      * Execute the console command.
-     * @throws BindingResolutionException
      */
     public function handle()
     {
-        $this->newsServices = Config::get('services.news_services');
+        // Get the list of news services from the configuration
+        $newsServices = Config::get('services.news_services');
 
-        $this->info('Fetching and updating articles...');
+        // Display an informational message
+        $this->info('Initiating the process to fetch and update articles...');
 
-        foreach ($this->newsServices as $key => $serviceClass) {
-            // Instantiate the service and call the fetch method
-            $serviceInstance = app()->make($serviceClass);
-            $this->info("Fetching news from {$key}");
+        foreach ($newsServices as $serviceName => $serviceClass) {
+            // Display a message for each news service being processed
+            $this->info("Adding {$serviceName} to Queues");
 
-            $articles = $serviceInstance->fetchAndProcessData();
-
-            $this->info(print_r($articles, true));
+            // Dispatch a job for each news service
+            FetchArticlesJob::dispatch($serviceClass)
+                ->onQueue('fetch-' . $serviceName . '-articles'); // We can customize the queue name if needed
         }
 
-        $this->info('Articles fetched and updated successfully!');
+        // Display a success message
+        $this->info('Articles fetching jobs successfully dispatched!');
+
     }
 }

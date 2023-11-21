@@ -1,18 +1,13 @@
 <?php
 
-namespace App\Services\Traits;
+namespace App\Services;
 
-use GuzzleHttp\Exception\GuzzleException;
-use jcobhams\NewsApi\NewsApiException;
-
-trait ApiDataProcessingTrait
+abstract class ApiServiceAbstract implements ApiServiceInterface
 {
     /**
      * Fetch and process data from the API.
      *
      * @return array An array of arrays with specific keys.
-     * @throws NewsApiException
-     * @throws GuzzleException
      */
     public function fetchAndProcessData(): array
     {
