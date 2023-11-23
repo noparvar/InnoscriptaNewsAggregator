@@ -17,6 +17,7 @@ This Laravel-based application serves as a news aggregator, fetching and storing
 ## Technologies Used
 
 - Laravel
+- Laravel Console Commands and Schedule
 - Laravel Scout
 - Laravel Eloquent
 - Laravel Jobs and Queues
@@ -31,7 +32,7 @@ This Laravel-based application serves as a news aggregator, fetching and storing
 5. Set up your preferred queue driver in the `.env` file.
 6. Configure your preferred data sources in `config/services.php`.
 7. Set up API keys and URLs for each data source in the `.env` file.
-8. Fetch articles with `php artisan fetch:articles`.
+8. Fetch articles with `php artisan articles:fetch`.
 9. Explore the API endpoints for article retrieval and search.
 
 ## API Endpoints
