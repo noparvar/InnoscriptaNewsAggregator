@@ -35,12 +35,12 @@ class FetchArticles extends Command
         // Display an informational message
         $this->info('Initiating the process to fetch and update articles...');
 
-        foreach ($newsServices as $serviceName => $serviceClass) {
+        foreach ($newsServices as $serviceName => $newsService) {
             // Display a message for each news service being processed
-            $this->info("Adding {$serviceName} to Queues");
+            $this->info("Adding $serviceName to Queues");
 
             // Dispatch a job for each news service
-            FetchArticlesJob::dispatch($serviceClass)
+            FetchArticlesJob::dispatch($newsService['class'])
                 ->onQueue('fetch-' . $serviceName . '-articles'); // We can customize the queue name if needed
         }
 

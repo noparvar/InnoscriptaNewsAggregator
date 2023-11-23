@@ -3,12 +3,22 @@
 namespace App\Services;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use jcobhams\NewsApi\NewsApi;
 use jcobhams\NewsApi\NewsApiException;
 
 class NewsApiService extends ApiServiceAbstract implements ApiServiceInterface
 {
+
+    private string $apiKey;
+    public function __construct()
+    {
+        $newsServices = Config::get('services.news_services');
+
+        // Retrieve The NewsApi API key from the environment
+        $this->apiKey = $newsServices[$this->getName()]['api_key'];
+    }
 
     public function getName(): string
     {
@@ -29,7 +39,7 @@ class NewsApiService extends ApiServiceAbstract implements ApiServiceInterface
         try {
 
             // Create a new instance of the NewsAPI client
-            $newsApi = new NewsApi(env('NEWSAPI_API_KEY'));
+            $newsApi = new NewsApi($this->apiKey);
 
             // Make a request to get the top headlines
             return $newsApi->getTopHeadLines(null, null, 'us', null, 10, 1);

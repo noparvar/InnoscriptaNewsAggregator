@@ -8,7 +8,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 
-class TheGuardianService extends ApiServiceAbstract implements ApiServiceInterface
+class NewYorkTimesService extends ApiServiceAbstract implements ApiServiceInterface
 {
 
     private Client $httpClient;
@@ -18,7 +18,7 @@ class TheGuardianService extends ApiServiceAbstract implements ApiServiceInterfa
     {
         $newsServices = Config::get('services.news_services');
 
-        // Retrieve The Guardian API key from the environment
+        // Retrieve NewYorkTimes API key from the environment
         $this->apiKey = $newsServices[$this->getName()]['api_key'];
 
         // Initialize Guzzle HTTP client with the base URI from the environment
@@ -29,12 +29,12 @@ class TheGuardianService extends ApiServiceAbstract implements ApiServiceInterfa
 
     public function getName(): string
     {
-        // Get the name of the service (The Guardian)
-        return 'TheGuardian';
+        // Get the name of the service (NewYorkTimes)
+        return 'NewYorkTimes';
     }
 
     /**
-     * Fetch data from The Guardian API.
+     * Fetch data from The NewYorkTimes API.
      *
      * @throws GuzzleException
      *
@@ -44,10 +44,9 @@ class TheGuardianService extends ApiServiceAbstract implements ApiServiceInterfa
     {
         try {
             // Make a GET request to The Guardian API
-            $response = $this->httpClient->get('search', [
+            $response = $this->httpClient->get('svc/topstories/v2/home.json', [
                 'query' => [
                     'api-key' => $this->apiKey,
-                    'type' => 'article'
                 ]
             ]);
 
@@ -55,11 +54,11 @@ class TheGuardianService extends ApiServiceAbstract implements ApiServiceInterfa
             $data = json_decode($response->getBody(), true);
 
             // Extract the relevant data from the response
-            return $data['response']['results'] ?? [];
+            return $data['results'] ?? [];
 
         } catch (GuzzleException $exception) {
             // Log the exception and rethrow it for higher-level handling
-            Log::error('The Guardian Exception: ' . $exception->getMessage());
+            Log::error('NewYorkTimes Exception: ' . $exception->getMessage());
 
             // Handle the exception (e.g., rethrow it for higher-level handling)
             throw $exception;
@@ -67,9 +66,9 @@ class TheGuardianService extends ApiServiceAbstract implements ApiServiceInterfa
     }
 
     /**
-     * Process and standardize raw data from The Guardian API.
+     * Process and standardize raw data from NewYorkTimes.
      *
-     * @param array $rawData Raw data from The Guardian API.
+     * @param array $rawData Raw data from NewYorkTimes.
      *
      * @return array Standardized data.
      */
@@ -81,11 +80,12 @@ class TheGuardianService extends ApiServiceAbstract implements ApiServiceInterfa
         foreach ($rawData as $article) {
 
             // Parse the raw publish date with Carbon
-            $carbonDate = Carbon::parse($article['webPublicationDate']);
+            $carbonDate = Carbon::parse($article['published_date']);
 
             $standardizedData[] = array(
-                'title'    => htmlspecialchars($article['webTitle']), // Sanitize title by encoding special characters to prevent XSS vulnerabilities
-                'category' => $article['sectionName'],
+                'title'    => htmlspecialchars($article['title']), // Sanitize title by encoding special characters to prevent XSS vulnerabilities
+                'content'      => strip_tags($article['abstract']), // Sanitize content by removing any potentially harmful HTML tags
+                'category' => $article['section'],
                 'source'   => $this->getName(),
                 'publish_date' => $carbonDate->toDateString(),
                 'publish_time' => $carbonDate->toTimeString(),

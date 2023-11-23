@@ -33,9 +33,21 @@ return [
 
     'news_services' => [
 
-        'newsapi' => App\Services\NewsApiService::class,
-        'theguardian' => App\Services\TheGuardianService::class,
-        //'nytimes' => App\Services\NewYorkTimesService::class,
+/*        'NewsApi' => [
+            'class'   => App\Services\NewsApiService::class,
+            'api_key' => env('NEWSAPI_API_KEY'),
+            'api_url' => env('NEWSAPI_URL', 'https://newsapi.org/v2/'),
+        ],
+        'TheGuardian' => [
+            'class'   => App\Services\TheGuardianService::class,
+            'api_key' => env('THEGUARDIAN_API_KEY'),
+            'api_url' => env('THEGUARDIAN_URL', 'https://content.guardianapis.com/search'),
+        ],*/
+        'NewYorkTimes' => [
+            'class' => App\Services\NewYorkTimesService::class,
+            'api_key' => env('NYTIMES_API_KEY'),
+            'api_url' => env('NYTIMES_URL', 'https://api.nytimes.com'),
+        ],
 
         // We can add more services as needed
 

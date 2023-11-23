@@ -29,24 +29,22 @@ class ArticleApiTest extends TestCase
         // Assert
         $response->assertStatus(200)
             ->assertJsonStructure([
-                'response' => [
-                    'status',
-                    'total',
-                    'pageSize',
-                    'currentPage',
-                    'pages',
-                    'results' => [
-                        '*' => [
-                            'title',
-                            'content',
-                            'author',
-                            'source',
-                            'category',
-                            'publish_date',
-                            'publish_time',
-                        ],
+                'data' => [
+                    '*' => [
+                        'id',
+                        'title',
+                        'content',
+                        'author',
+                        'source',
+                        'category',
+                        'created_at',
+                        'updated_at',
+                        'publish_date',
+                        'publish_time',
                     ],
                 ],
+                'links',
+                'meta',
             ]);
     }
 }
