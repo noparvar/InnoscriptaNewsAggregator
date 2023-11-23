@@ -33,7 +33,7 @@ return [
 
     'news_services' => [
 
-/*        'NewsApi' => [
+        'NewsApi' => [
             'class'   => App\Services\NewsApiService::class,
             'api_key' => env('NEWSAPI_API_KEY'),
             'api_url' => env('NEWSAPI_URL', 'https://newsapi.org/v2/'),
@@ -42,7 +42,7 @@ return [
             'class'   => App\Services\TheGuardianService::class,
             'api_key' => env('THEGUARDIAN_API_KEY'),
             'api_url' => env('THEGUARDIAN_URL', 'https://content.guardianapis.com/search'),
-        ],*/
+        ],
         'NewYorkTimes' => [
             'class' => App\Services\NewYorkTimesService::class,
             'api_key' => env('NYTIMES_API_KEY'),

@@ -6,7 +6,7 @@ This Laravel-based application serves as a news aggregator, fetching and storing
 
 - **Data Aggregation and Storage:** Regularly fetches articles from selected data sources and stores them locally in a database.
 
-- **API Endpoints:** Provides API endpoints for the frontend application to interact with the backend. Endpoints include fetching articles, searching with filtering criteria, and user preferences.
+- **API Endpoints:** Provides API endpoints for the frontend application to interact with the backend. Endpoints include fetching articles and searching with filtering criteria.
 
 - **Integration with Scout and Eloquent API Resources:** Uses Laravel Scout for full-text searching and Eloquent API Resources to transform data into a structured JSON response.
 
